@@ -13,9 +13,6 @@ matplotlib.interactive(True)
 import random
 from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg, 
 NavigationToolbar2Tk)
-    
-
-
 def unpack_all():
         rr.pack_forget()
         l5.pack_forget()
@@ -83,7 +80,6 @@ def rr():
         for i in range(len(waitTime)):
             if waitTime[i] < 0:
                 waitTime[i] = 0
-
         avg = sum(waitTime) / float(n)
         avg_tat=sum(TatTime)/float(n)
         Label(f, text="\n----- After Performing Round Robin Scheduling Algorithm -----\n").pack(anchor=W)
@@ -98,11 +94,6 @@ def rr():
         Label(f, text="Average Turn Around Time: " + str(avg_tat)).pack(anchor=W)
         Label(f, text="Average Wait Time: " + str(avg)).pack(anchor=W)
         l1 = Label(root, text='')
-        #l1.pack()
-        #runOther.pack(padx=120, side=LEFT)
-        #destroy.pack(padx=10, side=LEFT)
-
-
         cnt.clear()
         quant=list()
         quantom_list=list()
@@ -125,7 +116,6 @@ def rr():
             quantom2=math.ceil(math.sqrt(res*cnt_shadow[len(cnt_shadow)-1]))
             quant.append(quantom2)
             quantom_list.append(quantom)
-            #Label(f, text="Quantom:  " + str(quantom2)).pack(anchor=W)
             flag = True
             if e2[0] > quantom2:
                 flag = False
@@ -148,22 +138,17 @@ def rr():
                 execTime2[x] = cnt[x] + quantom2
             else:
                 execTime2[x] = cnt[x] + t2
-
         TatTime2 = list()
         for i in range(0, n):
             TatTime2.append(execTime2[i] - arrivalTime2[i])
         waitTime2 = [TatTime2[i] - burstTime2[i] for i in range(n)]
-
         for i in range(len(waitTime2)):
             if waitTime2[i] < 0:
                 waitTime2[i] = 0
-
         avg2 = sum(waitTime2) / float(n)
         avg_tat2=sum(TatTime2)/float(n)
-        # Label(f, text="\n----- After Performing Round Robin Algorithm with Optimum Quantum Time-----\n").pack(anchor=W)
         Label(f, text="Arrival Time:  " + str(arrivalTime2)).pack(anchor=W)
         Label(f, text="Process:  " + str(process2)).pack(anchor=W)
-        #Label(f, text="Quantom:  " + str(quantom2)).pack(anchor=W)
         Label(f,text = "Burst Time:  "+ str(burstTime2)).pack(anchor = W)
         Label(f, text="Completion Time:  " + str(execTime2)).pack(anchor=W)
         Label(f, text="Turn Around Time:  " + str(TatTime2)).pack(anchor=W)
@@ -173,163 +158,76 @@ def rr():
         Label(f, text="Average Wait Time: " + str(avg2)).pack(anchor=W)
         l1 = Label(root, text='')
         l1.pack()
-        #runOther.pack(padx=120, side=LEFT)
         destroy.pack(padx=10, side=LEFT)
-       
-
-#round robin ends here
-#graph 
         def plot():
-          
-            # the figure that will contain the plot
             fig = Figure(figsize = (5, 5),dpi = 100)
-            
-            # list of squares
-            #y = [i**2 for i in range(101)]
-          
-            # adding the subplot
             plot1 = fig.add_subplot(111)
             plot1.set_title("Waiting time comparison")
             plot1.set_xlabel("Process number")
             plot1.set_ylabel("Waiting Time")
-          
-            # plotting the graph
             plot1.plot(waitTime)
             plot1.plot(waitTime2)
-
             canvas = FigureCanvasTkAgg(fig,master = window)  
             canvas.draw()
-            # placing the canvas on the Tkinter window
             canvas.get_tk_widget().pack()
-          
-            # creating the Matplotlib toolbar
             toolbar = NavigationToolbar2Tk(canvas, window)
             toolbar.update()
-          
-            # placing the toolbar on the Tkinter window
             canvas.get_tk_widget().pack()
-
-        
         def plot1():
-          
-            # the figure that will contain the plot
             fig = Figure(figsize = (5, 5),dpi = 100)
-          
-            # list of squares
-            #y = [i**2 for i in range(101)]
-          
-            # adding the subplot
             plot1 = fig.add_subplot(111)
             plot1.set_title("Turn Around Time Comparison")
             plot1.set_xlabel("Process number")
             plot1.set_ylabel("Turn Around Time")
-          
-            # plotting the graph
             plot1.plot(TatTime)
             plot1.plot(TatTime2)
-
             canvas2 = FigureCanvasTkAgg(fig,master = window2)  
             canvas2.draw()
-            # placing the canvas on the Tkinter window
             canvas2.get_tk_widget().pack()
-          
-            # creating the Matplotlib toolbar
             toolbar2 = NavigationToolbar2Tk(canvas2, window2)
             toolbar2.update()
-          
-            # placing the toolbar on the Tkinter window
             canvas2.get_tk_widget().pack()    
-
-
         def plot_quant():
-          
-            # the figure that will contain the plot
             fig = Figure(figsize = (5, 5),dpi = 100)
-          
-            # list of squares
-            #y = [i**2 for i in range(101)]
-          
-            # adding the subplot
             plot_quant = fig.add_subplot(111)
             plot_quant.set_title("Quantum Time Comparison")
             plot_quant.set_xlabel("Context Switches")
             plot_quant.set_ylabel("Quantum Time")
-          
-            # plotting the graph
-           # plot_quant.plot(quantom_list)
             plot_quant.plot(quant)
-
             canvas_quant = FigureCanvasTkAgg(fig,master = window_quant)  
             canvas_quant.draw()
-            # placing the canvas on the Tkinter window
             canvas_quant.get_tk_widget().pack()
-          
-            # creating the Matplotlib toolbar
             toolbar_quant = NavigationToolbar2Tk(canvas_quant, window_quant)
             toolbar_quant.update()
-          
-            # placing the toolbar on the Tkinter window
-            canvas_quant.get_tk_widget().pack()        
-
-#plotting the waiting time
+            canvas_quant.get_tk_widget().pack()     
         window = Tk()
-  
-        # setting the title 
         window.title('Graph for comparison of waiting time')
-        # dimensions of the main window
         window.geometry("500x500")
-          
-        # button that displays the plot
-        plot_button1 = Button(master = window, command = plot, width = 35, text = "Waiting time")          
-        # place the button 
-        # in main window
+        plot_button1 = Button(master = window, command = plot, width = 35, text = "Waiting time")   
         plot_button1.pack(padx=10)
-#plotting the turn around time window
         window2 = Tk()
-  
-        # setting the title 
         window2.title('Graph for comparison of turn around time')
-        # dimensions of the main window
         window2.geometry("500x500")
         plot_button2 = Button(master = window2, command = plot1, width = 35, text = "Turn around time")
         plot_button2.pack(padx=10)
-
 #plotting the graph function
         window_quant =  Tk()
         window_quant.title('Graph for comparison of quantum time')
-        # dimensions of the main window
         window_quant.geometry("500x500")
         plot_button_quant = Button(master = window_quant, command = plot_quant, width = 35, text = "Quantum time")
-
         plot_button_quant.pack(padx=10)
 #graph plotting ends
 root = Tk()
 root.title("Scheduling Algorithm Simulator\n")
 destroy = Button(root, text="Quit", command=quit)
-# runOther = Button(root, text="Run Other", command=app)
 f = Frame(root)
 f.pack()
 f.pack_forget()
 w = Label(root, text="\n    Scheduling Algorithm Simulator \n   \t", font=('Helveltika bold', 14))
-#c = Label(root, text="\nChoose any one from below:\n")
 w.pack()
-#c.pack() 
 rr = Button(root, text="Round Robin Scheduling", width=35, command=rr)
 rr.pack(padx=10)
 l5 = Label(root, text='')
 l5.pack()
-   
-   
 destroy.pack(padx=10)
-  
-# the main Tkinter window
-
-
-
-
-
 root.mainloop()        
-
-
-# if __name__ == '__main__':
-#     app()
